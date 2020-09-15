@@ -1,0 +1,26 @@
+job("maven_dsl_job"){
+	description("Job is created by DSL for Maven")
+	scm{
+	   github('jenkins-docs/simple-java-maven-app','master')
+	}
+	steps{
+		maven{
+			mavenInstallation('jenkins-maven')
+			goals('-B -DskipTests clean package')
+		}
+		maven{
+			mavenInstallation('jenkins-maven')
+			goals('test')
+		}
+		shell('''
+			echo **********RUNNING THE JAR**********
+			java -jar /var/jenkins_home/workspace/maven_dsl_job/target/my-app-1.0-SNAPSHOT.jar
+		''')
+		
+	}
+	publishers{
+		 archiveArtifacts('target/*.jar')
+		 archiveJunit('target/surefire-reports/*.xml')
+		 mailer('himanshutak8@gmail.com', true, true)
+	}
+}

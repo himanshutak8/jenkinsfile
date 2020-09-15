@@ -1,0 +1,16 @@
+job("DSL-1"){
+  description("Job Created by seed Job")
+  parameters {
+ 	stringParam('Planet', defaultValue='Earth')   
+	stringParam('Name', defaultValue='Himanshu')
+	booleanParam('FLAG', true)
+	choiceParam('OPTION', ['option 1 (default)', 'option 2', 'option 3'])
+  }
+  scm{
+	github('jenkins-docs/simple-java-maven-app', 'master')	
+  }
+  triggers{
+	scm("* * * * *")
+  }
+	
+}
